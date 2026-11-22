@@ -2,14 +2,17 @@ import { decode } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
 
 export async function getOurToken() {
-  const token = (await cookies()).get('next-auth.session-token')?.value;
+  const store = await cookies();
+  const token =
+    store.get('__Secure-next-auth.session-token')?.value ||
+    store.get('next-auth.session-token')?.value;
 
   if (!token) {
     throw new Error('Please Login To add products to your cart');
   }
 
   const decodedToken = await decode({
-    token: token,
+    token,
     secret: process.env.AUTH_SECRET!,
   });
 

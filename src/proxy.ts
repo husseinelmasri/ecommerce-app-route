@@ -2,8 +2,12 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function proxy(request: NextRequest) {
+  const cookieName =
+    process.env.NODE_ENV == 'production'
+      ? '__Secure-next-auth.session-token'
+      : 'next-auth.session-token';
   const { pathname } = request.nextUrl;
-  const token = await getToken({ req: request });
+  const token = await getToken({ req: request, cookieName });
 
   const isAuthPages = pathname == '/login' || pathname == '/register';
 
