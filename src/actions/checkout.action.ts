@@ -8,7 +8,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export async function onlinePayment(cartId: string, formData: any) {
   const token = await getOurToken();
   const response = await fetch(
-    `${baseUrl}/api/v1/orders/checkout-session/${cartId}?url=${process.env.NEXTAUTH_URL}/allorders`,
+    `${baseUrl}/api/v1/orders/checkout-session/${cartId}?url=${process.env.NEXTAUTH_URL}`,
     {
       method: 'POST',
       body: JSON.stringify(formData),
